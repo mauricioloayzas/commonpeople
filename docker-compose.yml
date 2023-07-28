@@ -1,0 +1,69 @@
+version: '3'
+services:
+  #MySQL Service
+  db-commonpeople:
+    image: mysql:8.0
+    container_name: db-commonpeople
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: commonpeople
+      MYSQL_ROOT_PASSWORD: commonpeoplepass
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/my.cnf
+    networks:
+      - network-commonpeople
+
+  #PHP Service
+  app-commonpeople:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+        - 9000
+    image: digitalocean.com/php
+    container_name: app-commonpeople
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    networks:
+      - network-commonpeople
+
+  #Nginx Service
+  webserver-commonpeople:
+    image: nginx:alpine
+    container_name: webserver-commonpeople
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - network-commonpeople
+
+#Docker Networks
+networks:
+  network-commonpeople:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
