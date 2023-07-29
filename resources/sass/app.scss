@@ -6,3 +6,15 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.exercise-background{
+    background-image: url("../../images/background.jpg");
+}
+
+.list-card{border: 0}
+.list-card-header{padding: 0}
+.list-image{width: 100%}
+.list-link svg{
+    transform: scale(1.5);
+    margin-right: 2%;
+}

@@ -19,4 +19,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(App\Http\Controllers\HomeController::class)->group(function (){
+    Route::get('/home','index')->name('home');
+    Route::get('/list','list')->name('list');
+    Route::get('/form','form')->name('form');
+    Route::get('/slider','slider')->name('slider');
+});
+
