@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectResource;
+use App\Service\ProjectService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class HomeController extends Controller
 {
+    /** @var ProjectService */
+    private $projectService;
+
     /**
      * Create a new controller instance.
      *
@@ -14,6 +20,7 @@ class HomeController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
+        $this->projectService = app(ProjectService::class);
     }
 
     /**
@@ -28,7 +35,9 @@ class HomeController extends Controller
 
     public function list()
     {
-        return view('exercise/list');
+        return view('exercise.list', [
+            'projects'  => ProjectResource::collection($this->projectService->getAll())
+        ]);
     }
 
     public function form()
@@ -36,8 +45,16 @@ class HomeController extends Controller
         return view('exercise/form');
     }
 
+    public function loadSliderData(Request $request)
+    {
+        return response()->json(
+            ['data' => ProjectResource::collection($this->projectService->getAll())->toArray($request)],
+            Response::HTTP_OK
+        );
+    }
+
     public function slider()
     {
-        return view('exercise/slider');
+        return view('exercise.slider');
     }
 }

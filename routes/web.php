@@ -23,6 +23,7 @@ Route::controller(App\Http\Controllers\HomeController::class)->group(function ()
     Route::get('/home','index')->name('home');
     Route::get('/list','list')->name('list');
     Route::get('/form','form')->name('form');
+    Route::get('/load-slider-data','loadSliderData')->name('load-slider-data');
     Route::get('/slider','slider')->name('slider');
 });
 

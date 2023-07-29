@@ -1,4 +1,4 @@
-const data = [
+/*const data = [
     {
         title: "Title 1",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -107,47 +107,65 @@ const data = [
             }
         ]
     }
-];
+];*/
+
  $(document).ready(function(){
+     let data = [];
+     $.ajax({
+         type: 'get',
+         url: $('#url-load-projects').val(),
+         dataType: "json",
+         async: false,
+         beforeSend: function() {
+         },
+         success: function(response) {
+             data = response.data;
+             console.log(data);
+         },
+         error: function() {
+         }
+     });
+     console.log(data);
+
      $("#slider-title").html(data[0].title);
      $("#slider-description").html(data[0].description);
      $("#current-slider").html(data[0].order);
 
      data[0].images.forEach(loadImageCarousel);
+
+     $("#counter-total").html(data.length);
+
+     $("#control-right").click(function (){
+         let actual = parseInt($("#current-slider").html()) + 1;
+         if(actual <= parseInt($("#counter-total").html())){
+             $("#slider-title").html(data[actual - 1].title);
+             $("#slider-description").html(data[actual - 1].description);
+             $("#current-slider").html(data[actual - 1].order);
+             data[actual - 1].images.forEach(loadImageCarousel);
+         }else{
+             $("#slider-title").html(data[0].title);
+             $("#slider-description").html(data[0].description);
+             $("#current-slider").html(data[0].order);
+             data[0].images.forEach(loadImageCarousel);
+         }
+     });
+
+     $("#control-left").click(function (){
+         let actual = parseInt($("#current-slider").html()) -1;
+         let max = parseInt($("#counter-total").html()) -1;
+         if(actual >= 1){
+             $("#slider-title").html(data[actual - 1].title);
+             $("#slider-description").html(data[actual - 1].description);
+             $("#current-slider").html(data[actual - 1].order);
+             data[actual - 1].images.forEach(loadImageCarousel);
+         }else{
+             $("#slider-title").html(data[max].title);
+             $("#slider-description").html(data[max].description);
+             $("#current-slider").html(data[max].order);
+             data[max].images.forEach(loadImageCarousel);
+         }
+     });
  });
-
-$("#counter-total").html(data.length);
-
-$("#control-right").click(function (){
-    let actual = parseInt($("#current-slider").html()) + 1;
-    if(actual <= parseInt($("#counter-total").html())){
-        $("#slider-title").html(data[actual - 1].title);
-        $("#slider-description").html(data[actual - 1].description);
-        $("#current-slider").html(data[actual - 1].order);
-        data[actual - 1].images.forEach(loadImageCarousel);
-    }else{
-        $("#slider-title").html(data[0].title);
-        $("#slider-description").html(data[0].description);
-        $("#current-slider").html(data[0].order);
-        data[0].images.forEach(loadImageCarousel);
-    }
-});
-
-$("#control-left").click(function (){
-    let actual = parseInt($("#current-slider").html()) -1;
-    let max = parseInt($("#counter-total").html()) -1;
-    if(actual >= 1){
-        $("#slider-title").html(data[actual - 1].title);
-        $("#slider-description").html(data[actual - 1].description);
-        $("#current-slider").html(data[actual - 1].order);
-        data[actual - 1].images.forEach(loadImageCarousel);
-    }else{
-        $("#slider-title").html(data[max].title);
-        $("#slider-description").html(data[max].description);
-        $("#current-slider").html(data[max].order);
-        data[max].images.forEach(loadImageCarousel);
-    }
-});
 
 function loadImageCarousel(item, index, images){
     $("#slider-image-"+item.order).attr("src", item.folder+"/"+item.name);

@@ -25,6 +25,9 @@
  php composer install
  php artisan ui bootstrap
  php artisan ui bootstrap --auth
+ php artisan migrate
+ php artisan db:seed --class=ProjectsSeeder
+ php artisan db:seed --class=ImagesSeeder
 ```
 - Retornamos hacia la primera pestaña de consola y ejecutamos
 ```
