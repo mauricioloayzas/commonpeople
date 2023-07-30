@@ -33,7 +33,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('exercise/home');
+        return view('exercise.home' , [
+            'message'  => "Bienvenidos, para acceder a las tareas de la prueba por favor hacerlo con el menú del header"
+        ]);
     }
 
     public function list()

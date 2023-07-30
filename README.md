@@ -1,5 +1,6 @@
 ## Requisitos previos
 - Debe terner instaldo en su equipo nodejs
+- Debe terner instaldo en su equipo npm
 - Debe tener instalado en su equipo docker
 ## Descarga e instalción
 - Abrir una ventana de consola del sistema y ejecutar: 
@@ -22,9 +23,7 @@
 - Una vez adentro del contenedor ejecutar:
 ```
  cp .env.example .env
- php composer install
- php artisan ui bootstrap
- php artisan ui bootstrap --auth
+ composer install
  php artisan migrate
  php artisan db:seed --class=ProjectsSeeder
  php artisan db:seed --class=ImagesSeeder
