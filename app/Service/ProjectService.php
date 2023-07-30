@@ -53,6 +53,14 @@ class ProjectService
     }
 
     /**
+     * @return int
+     */
+    public function getMaxOrder(): int
+    {
+        return  $this->projectRepository->getMaxOrder();
+    }
+
+    /**
      * Create a project.
      *
      * @param mixed $newProject

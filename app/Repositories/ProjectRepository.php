@@ -37,6 +37,15 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     /**
+     * @return int
+     */
+    public function getMaxOrder(): ?int
+    {
+        $order = Project::max('order');
+        return $order;
+    }
+
+    /**
      * @param array $newProject
      * @return Project
      */

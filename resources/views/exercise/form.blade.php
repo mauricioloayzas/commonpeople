@@ -19,51 +19,53 @@
 
 <div id="modal-exercise" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Formulario del ejercicio</h5>
-                <button type="button" class="close close-form" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+        <form method="POST" action="{{ route('save-project') }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Formulario del ejercicio (Proyecto)</h5>
+                    <button type="button" class="close close-form" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        @csrf
 
-                    <div class="row mb-3">
-                        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                        <div class="row mb-3">
+                            <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('título') }}</label>
 
-                        <div class="col-md-6">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required >
+                            <div class="col-md-6">
+                                <input id="title" type="text" class="form-control @error('email') is-invalid @enderror" name="title" value="{{ old('title') }}" required >
+                                <input id="order" type="hidden" name="order" value="{{ $orderNumber }}" >
 
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+                                @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-3">
-                        <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('username') }}</label>
+                        <div class="row mb-3">
+                            <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Descripción') }}</label>
 
-                        <div class="col-md-6">
-                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="password" required >
+                            <div class="col-md-6">
+                                <textarea id="description"  class="form-control @error('username') is-invalid @enderror" name="description" required ></textarea>
 
-                            @error('username')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+                                @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">{{ __('enviar') }}</button>
+                    <button type="button" class="btn btn-secondary close-form">Cerrar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">{{ __('enviar') }}</button>
-                <button type="button" class="btn btn-secondary close-form">Cerrar</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 @endsection

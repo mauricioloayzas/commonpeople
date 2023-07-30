@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
+use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
+use App\Models\Image;
 use App\Service\ProjectService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,7 +45,31 @@ class HomeController extends Controller
 
     public function form()
     {
-        return view('exercise/form');
+        return view('exercise/form', [
+            'orderNumber'   => $this->projectService->getMaxOrder() + 1
+        ]);
+    }
+
+    public function newProject(ProjectRequest $request)
+    {
+        $data = $request->all();
+        $project = $this->projectService->createProject($data);
+        $counter = 1;
+        while($counter <= 4){
+            Image::factory()->create([
+                'folder'        => "images",
+                'name'          => "slider-image-{$counter}.jpg",
+                'status'        => Status::ACTIVE,
+                'order'         => $counter,
+                'project_id'    => $project->id
+            ]);
+
+            $counter++;
+        }
+
+        return view('exercise.list', [
+            'projects'  => ProjectResource::collection($this->projectService->getAll())
+        ]);
     }
 
     public function loadSliderData(Request $request)
